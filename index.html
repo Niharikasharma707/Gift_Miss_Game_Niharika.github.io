@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ 
+  
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GIFT or MISS!</title>
+ 
+
+  
+  <style>
+
+    * {
+      margin: 10;
+      padding: 100;
+      box-sizing: border-box;
+    }
+
+    body {
+       background-color: darkslategrey;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+   
+    background-image: url('https://wallpaperaccess.com/full/834722.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #FFFFFF;
+
+      
+  
+    }
+
+    button{
+      background-color:rgb(8, 255, 255);
+    border-color: rgb(52, 21, 228);
+    
+
+    border-style:dashed;
+border-collapse:separate;
+    padding: 1em 2em;
+      font-size: 30px;
+      
+      transition: 0.2s;
+      
+    }
+    button:hover {
+      cursor: pointer;
+      box-shadow: 0px 5px 10px rgb(76, 224, 247);
+      transform: translateY(-2px);
+  
+    }
+    tr,
+    td {
+      width: 150px;
+      height: 162.8px;
+      padding: 10px;
+      text-align: center;
+      user-select: none;
+    }
+
+   .container {
+   
+      justify-content: center;
+      font-size: 40px;
+
+    }
+
+    .box {
+      background-color:rgb(159, 250, 250);
+
+    
+      color: transparent;
+      cursor: pointer;
+      font-size: 3rem;
+    }
+    
+    h1 {
+    
+     display: none;
+   
+
+    }
+
+   h2{
+    display: flex;
+justify-content: center;
+font-family: 'Lucida Sans';
+font-size: 600%;
+background-color: rgb(255, 137, 46);
+border-style: solid;
+border-color: rgb(96, 210, 227);
+
+   }
+   h2:hover {
+    cursor: pointer;
+      box-shadow: 0px 5px 10px rgba(83, 5, 227, 0.505);
+      transform: translateY(-2px);
+  
+   }
+  
+    
+    h1.active {
+      display: block;
+    }
+
+    .button-container {
+      display: block;
+
+    }
+    .button-container.hide {
+      display: none;
+    }
+    .score, .scoree{
+    background-color: rgb(255, 137, 46);
+    
+  
+    }
+  </style>
+</head>
+
+<body>
+    
+
+    <div class="button-container">
+     <h2>
+    LET'S PLAY ! 
+    <h2>
+    
+    
+    
+     
+     
+      
+    
+    <button onclick="generateBoxes(3)">3X3</button>
+    <button onclick="generateBoxes(4)">4X4</button>
+    <button onclick="generateBoxes(6)">6X6</button>
+  </div>
+  <div class="container">
+  
+    <h1 align="center" class="scoree">Score: <span class="score">1000</span></h1>
+    <table border="1">
+      <!-- <tr>
+          <td id="1" class="box">1</td>
+          <td id="2" class="box">2</td>
+          <td id="3" class="box">3</td>
+        </tr>
+        <tr>
+          <td id="4" class="box">4</td>
+          <td id="5" class="box">5</td>
+          <td id="6" class="box">6</td>
+        </tr>
+        <tr>
+          <td id="7" class="box">7</td>
+          <td id="8" class="box">8</td>
+          <td id="9" class="box">9</td>
+        </tr> -->
+    </table>
+  </div>
+
+  <script>
+
+    let countGift = 0;
+    let bombNum;
+    let scoreElem = document.querySelector('h1')
+    let buttonContainer = document.querySelector('.button-container')
+
+    let tableContainer = document.querySelector('.container table');
+    function generateBoxes(gridSize) {
+      scoreElem.classList.add('active');
+      buttonContainer.classList.add('hide');
+      let numOfBoxes = gridSize * gridSize;
+      let boxId = 1;
+      for (let i = 1; i <= gridSize; i++) {
+        let tr = document.createElement('tr');
+        for (let j = 1; j <= gridSize; j++) {
+          tr.innerHTML += `<td id="${boxId}" class="box">${boxId}</td>`;
+          boxId++;
+        }
+        tableContainer.appendChild(tr);
+      }
+
+      let boxes = document.querySelectorAll(".box");
+      boxes.forEach((box) => {
+        box.textContent = "Miss";
+      });
+      boxes.forEach((box) => {
+        box.addEventListener("click", clickBox);
+      });
+
+
+      let gifts = [];
+    function randomNum(min, max) {
+      bombNum = Math.floor(Math.random() * max) + min;
+      document.getElementById(bombNum).textContent = "Bomb";
+      var n = [];
+      while (n.length != 3) {
+        let num = Math.floor(Math.random() * max) + min;
+        if (num == bombNum) {
+          continue;
+        }
+        if (n.indexOf(num) === -1) {
+          n.push(num);
+        }
+      }
+
+      return n;
+    }
+
+    gifts = randomNum(1, 9);
+
+    gifts.forEach((gift) => {
+      document.getElementById(`${gift}`).innerHTML = ` <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+            />
+          </svg>`;
+    });
+    }
+
+
+    let scoreText = document.querySelector(".score");
+    let boxes = document.querySelectorAll(".box");
+    boxes.forEach((box) => {
+      box.textContent = "Miss";
+    });
+
+    boxes.forEach((box) => {
+      box.addEventListener("click", clickBox);
+    });
+
+    function clickBox() {
+      this.style.color = "black";
+      if (this.textContent == "Bomb") {
+        document.querySelector("h1").innerHTML = `You lost :( <br>`;
+        console.log(bombNum)
+        document.getElementById(
+          `${bombNum}`
+        ).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M440.8 4.994C441.9 1.99 444.8 0 448 0C451.2 0 454.1 1.99 455.2 4.994L469.3 42.67L507 56.79C510 57.92 512 60.79 512 64C512 67.21 510 70.08 507 71.21L469.3 85.33L455.2 123C454.1 126 451.2 128 448 128C444.8 128 441.9 126 440.8 123L426.7 85.33L388.1 71.21C385.1 70.08 384 67.21 384 64C384 60.79 385.1 57.92 388.1 56.79L426.7 42.67L440.8 4.994zM289.4 97.37C301.9 84.88 322.1 84.88 334.6 97.37L363.3 126.1L380.7 108.7C386.9 102.4 397.1 102.4 403.3 108.7C409.6 114.9 409.6 125.1 403.3 131.3L385.9 148.7L414.6 177.4C427.1 189.9 427.1 210.1 414.6 222.6L403.8 233.5C411.7 255.5 416 279.3 416 304C416 418.9 322.9 512 208 512C93.12 512 0 418.9 0 304C0 189.1 93.12 96 208 96C232.7 96 256.5 100.3 278.5 108.3L289.4 97.37zM95.1 296C95.1 238.6 142.6 192 199.1 192H207.1C216.8 192 223.1 184.8 223.1 176C223.1 167.2 216.8 160 207.1 160H199.1C124.9 160 63.1 220.9 63.1 296V304C63.1 312.8 71.16 320 79.1 320C88.84 320 95.1 312.8 95.1 304V296z"/></svg>`;
+        // TODO: Remove Event Listener
+        boxes.forEach((box) => {
+          box.removeEventListener("click", clickBox);
+          console.log("removed Event Listener");
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      } else if (this.textContent == "Miss") {
+        scoreText.textContent = scoreText.textContent - 100;
+      } else {
+        countGift++;
+
+        if (countGift == 3) {
+          let score = scoreText.textContent;
+          document.querySelector(
+            "h1"
+          ).innerHTML = `You Won :) <br> Score: ${score}`;
+          // TODO: Remove Event Listener After Game Won!
+          boxes.forEach((box) => {
+            box.removeEventListener("click", clickBox);
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      }
+    }
+
+    let gifts = [];
+    function randomNum(min, max) {
+      bombNum = Math.floor(Math.random() * max) + min;
+      document.getElementById(bombNum).textContent = "Bomb";
+      var n = [];
+      while (n.length != 3) {
+        let num = Math.floor(Math.random() * max) + min;
+        if (num == bombNum) {
+          continue;
+        }
+        if (n.indexOf(num) === -1) {
+          n.push(num);
+        }
+      }
+
+      return n;
+    }
+
+    gifts = randomNum(1, 9);
+
+    gifts.forEach((gift) => {
+      document.getElementById(`${gift}`).innerHTML = ` <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+            />
+          </svg>`;
+    });
+  </script>
+</body>
+
+</html>
